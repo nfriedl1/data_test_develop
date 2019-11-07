@@ -88,10 +88,14 @@ class TestSolution(unittest.TestCase):
     self.assertIsInstance(testRoot, ET.Element)
 
   def test_filterTreeByDate(self):
-    self.assertRaises(s.MissingTagError, s.filterTreeByDate, self.root, self.childTag, "./NotATag", "01_September_1939_00:00", "02_September_1945_23:59", "%d_%B_%Y_%H:%M")
-    self.assertRaises(ValueError, s.filterTreeByDate, self.root, self.childTag, "./Datetime", "01_September_1939_00:00", "9/2/1945_23:59", "%d_%B_%Y_%H:%M")
+    self.assertRaises(s.MissingTagError, s.filterTreeByDate, self.root, self.childTag, \
+      "./NotATag", "01_September_1939_00:00", "02_September_1945_23:59", "%d_%B_%Y_%H:%M")
 
-    s.filterTreeByDate(self.root, self.childTag, "./Datetime", "01_September_1939_00:00", "02_September_1945_23:59", "%d_%B_%Y_%H:%M")
+    self.assertRaises(ValueError, s.filterTreeByDate, self.root, self.childTag, "./Datetime", \
+      "01_September_1939_00:00", "9/2/1945_23:59", "%d_%B_%Y_%H:%M")
+
+    s.filterTreeByDate(self.root, self.childTag, "./Datetime", "01_September_1939_00:00", \
+      "02_September_1945_23:59", "%d_%B_%Y_%H:%M")
 
     answerStr = """
       <Fruits>
@@ -121,7 +125,8 @@ class TestSolution(unittest.TestCase):
 
 
   def test_filterTreeByText(self):
-    self.assertRaises(s.MissingTagError, s.filterTreeByText, self.root, self.childTag, "./Flavor", "gross")
+    self.assertRaises(s.MissingTagError, s.filterTreeByText, self.root, self.childTag, \
+      "./Flavor", "gross")
 
     s.filterTreeByText(self.root, self.childTag, "./Text",  "the_")
 

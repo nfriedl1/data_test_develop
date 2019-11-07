@@ -68,7 +68,8 @@ def writeXMLToCSV(root, fileStr, chosenTags):
      not isinstance(chosenTags, list):
     raise TypeError("Invalid argument type.")
   for x in chosenTags:
-    if not isinstance(x, tuple) or not isinstance(x[0], basestring) or not isinstance(x[1], bool):
+    if not isinstance(x, tuple) or not isinstance(x[0], basestring) or \
+       not isinstance(x[1], bool):
       raise TypeError("Invalid argument type.")
   try:
     csvFile = open(fileStr, "w")
@@ -280,10 +281,13 @@ def script():
     print "ParseError, unable to parse document"
     sys.exit()
 
-  filterTreeByDate(root, childTag, "./ListingDetails/DateListed", "2016-01-01 00:00:00", "2017-01-01 00:00:00", dtFormat)
+  filterTreeByDate(root, childTag, "./ListingDetails/DateListed", \
+    "2016-01-01 00:00:00", "2017-01-01 00:00:00", dtFormat)
+
   filterTreeByText(root, childTag, "./BasicDetails/Description", " and ")
 
-  sortTree(root, childTag, lambda x: datetime.strptime(x.find("./ListingDetails/DateListed").text, dtFormat))
+  sortTree(root, childTag, 
+    lambda x: datetime.strptime(x.find("./ListingDetails/DateListed").text, dtFormat))
 
   chosenTags = [
     ("./ListingDetails/MlsId", False),
